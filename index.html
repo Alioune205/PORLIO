@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & Métadonnées -->
+    <title>Pape Alioune Sene | PAS Digital Studio — Développeur Full-Stack & UX/UI</title>
+    <meta name="description" content="Portfolio de Pape Alioune Sene (PAS Digital Studio). Développeur Full-Stack (Django, React, Flutter) basé à Dakar, orienté impact social et civic-tech sénégalais.">
+    
+    <!-- Open Graph / Réseaux Sociaux -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Pape Alioune Sene | PAS Digital Studio">
+    <meta property="og:description" content="Développeur Full-Stack (Django, React, Flutter) basé à Dakar, spécialisé en civic-tech et impact social (PAS Digital Studio).">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630.png?text=PAS+Digital+Studio">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://via.placeholder.com/32.png?text=PAS" type="image/png">
+
+    <!-- Google Fonts avec font-display: swap pour corriger les problèmes d'affichage locaux -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis for Smooth Scrolling -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.32/dist/lenis.min.js"></script>
+
+    <!-- Three.js for 3D Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    
+    <!-- Curseur Personnalisé (affiché via JS uniquement sur desktop) -->
+    <div class="custom-cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" aria-label="Navigation Principale">
+        <div class="nav-container">
+            <a href="#" class="logo" aria-label="Retour à l'accueil">
+                <div class="logo-brand">
+                    <span class="logo-main">PAS</span>
+                    <span class="logo-sub">DIGITAL STUDIO</span>
+                </div>
+            </a>
+            
+            <!-- Bouton Menu Hamburger pour Mobile avec attributs A11Y -->
+            <button class="mobile-menu-btn" aria-label="Ouvrir le menu de navigation" aria-expanded="false" aria-controls="mobile-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-links" id="mobile-nav">
+                <li><a href="#about" class="nav-link">À Propos</a></li>
+                <li><a href="#services" class="nav-link">Expertise</a></li>
+                <li><a href="#skills" class="nav-link">Compétences</a></li>
+                <li><a href="#portfolio" class="nav-link">Réalisations</a></li>
+                <li><a href="#posters" class="nav-link">Design</a></li>
+                <li><a href="#contact" class="btn-primary">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Section Hero avec 3D -->
+        <section id="hero" class="section-hero">
+            <!-- Canvas pour Three.js (Réseau Filaire) -->
+            <canvas id="canvas3d" aria-hidden="true"></canvas>
+            
+            <!-- Vidéo de fond cinématique -->
+            <video class="hero-video-bg" autoplay loop muted playsinline aria-hidden="true">
+                <source src="assets/Prompt_Cinematic_slow_motion.mp4" type="video/mp4">
+            </video>
+            <!-- Overlay sombre pour garantir la lisibilité du texte -->
+            <div class="hero-overlay" aria-hidden="true"></div>
+
+            <div class="hero-layout">
+                <div class="hero-content">
+                    <p class="subtitle fade-up">Développeur Full-Stack & Designer UX/UI</p>
+                    <h1 class="hero-title reveal-text">
+                        <span class="word-wrap"><span class="char">C</span><span class="char">o</span><span class="char">n</span><span class="char">s</span><span class="char">t</span><span class="char">r</span><span class="char">u</span><span class="char">i</span><span class="char">r</span><span class="char">e</span></span> 
+                        <span class="word-wrap"><span class="char">l</span><span class="char">'</span><span class="char">a</span><span class="char">v</span><span class="char">e</span><span class="char">n</span><span class="char">i</span><span class="char">r</span></span> 
+                        <span class="word-wrap"><span class="char">t</span><span class="char">e</span><span class="char">c</span><span class="char">h</span></span> 
+                        <span class="word-wrap"><span class="char">d</span><span class="char">u</span></span> 
+                        <span class="accent word-wrap"><span class="char">S</span><span class="char">é</span><span class="char">n</span><span class="char">é</span><span class="char">g</span><span class="char">a</span><span class="char">l</span></span>
+                    </h1>
+                    <p class="hero-description fade-up">Je conçois des applications web et mobiles robustes avec une architecture moderne, orientées impact et expérience utilisateur.</p>
+                    <div class="hero-actions fade-up">
+                        <a href="#portfolio" class="btn btn-primary">Voir mes projets</a>
+                        <a href="#contact" class="btn btn-outline">Travaillons ensemble</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator fade-up" aria-hidden="true">
+                <span class="mouse">
+                    <span class="wheel"></span>
+                </span>
+            </div>
+        </section>
+
+        <!-- Section About -->
+        <section id="about" class="section-about">
+            <div class="about-3d-container" aria-hidden="true"><canvas id="canvas-about"></canvas></div>
+            <div class="container">
+                <div class="about-grid">
+                    
+                    <!-- Composition Photo : halo + badges tech flottants -->
+                    <div class="about-photo-wrapper fade-up" id="about-photo-composition">
+                        <!-- Halo lumineux en arrière-plan -->
+                        <div class="photo-halo" aria-hidden="true"></div>
+
+                        <!-- Photo circulaire centrale -->
+                        <div class="about-photo-circle">
+                            <img src="assets/PAS.jpg" alt="Photo de Pape Alioune Sene, fondateur de PAS Digital Studio" class="profile-img">
+                        </div>
+
+                        <!-- Badges technologiques flottants -->
+                        <div class="tech-badges" aria-hidden="true">
+
+                            <!-- Badge 1 : Django -->
+                            <div class="tech-badge badge-django badge-float-1" title="Django">
+                                <img src="assets/django.png" alt="Django 3D Logo">
+                            </div>
+
+                            <!-- Badge 2 : React -->
+                            <div class="tech-badge badge-react badge-float-2" title="React">
+                                <img src="assets/react.png" alt="React 3D Logo">
+                            </div>
+
+                            <!-- Badge 3 : Flutter -->
+                            <div class="tech-badge badge-flutter badge-float-3" title="Flutter">
+                                <img src="assets/flutter.png" alt="Flutter 3D Logo">
+                            </div>
+
+                            <!-- Badge 4 : PostgreSQL -->
+                            <div class="tech-badge badge-postgres badge-float-4" title="PostgreSQL">
+                                <img src="assets/postgres.png" alt="PostgreSQL 3D Logo">
+                            </div>
+
+                            <!-- Badge 5 : Python -->
+                            <div class="tech-badge badge-python badge-float-5" title="Python">
+                                <img src="assets/python.png" alt="Python 3D Logo">
+                            </div>
+
+                            <!-- Badge 6 : Figma -->
+                            <div class="tech-badge badge-figma badge-float-6" title="Figma">
+                                <img src="assets/figma.png" alt="Figma 3D Logo">
+                            </div>
+
+                            <!-- Badge 7 : Photoshop -->
+                            <div class="tech-badge badge-photoshop badge-float-7" title="Photoshop">
+                                <img src="assets/photoshop.png" alt="Photoshop 3D Logo">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="about-text">
+                        <h2 class="section-title reveal-text">Qui suis-je ?</h2>
+                        <p class="fade-up" id="about-p1">Étudiant en BTS Informatique passionné par le développement d'applications qui ont un véritable sens. Mon approche au sein de <strong>PAS Digital Studio</strong> fusionne développement robuste et design fonctionnel centrés sur l'utilisateur.</p>
+                        <p class="fade-up" id="about-p2">Mon ambition ? Participer activement à la souveraineté technologique et au développement socio-économique du Sénégal en créant des solutions innovantes, des registres civils intelligents aux applications e-santé.</p>
+                    </div>
+
+                    <div class="about-stats">
+                        <div class="stat-card fade-up">
+                            <h3>10+</h3>
+                            <p>Projets Académiques & Persos</p>
+                        </div>
+                        <div class="stat-card fade-up">
+                            <h3>2+</h3>
+                            <p>Années de passion & code</p>
+                        </div>
+                        <div class="stat-card fade-up" style="grid-column: span 2;">
+                            <h3 style="font-size: 1.5rem; margin-top: 15px; color: var(--color-text-main);">Django, React, Flutter</h3>
+                            <p>Stack Principale</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Expertise/Services -->
+        <section id="services" class="section-services">
+            <div class="container">
+                <h2 class="section-title reveal-text text-center">Mon Expertise</h2>
+                <div class="services-grid">
+                    <div class="service-card fade-up">
+                        <div class="service-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+                        </div>
+                        <h3>Développement Full-Stack</h3>
+                        <p>Architecture et création d'applications web et mobiles complètes avec Django REST Framework, React.js et Flutter.</p>
+                    </div>
+                    <div class="service-card fade-up">
+                        <div class="service-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.21-.64-1.67-.08-.09-.13-.21-.13-.33 0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9zm5.5 11c-.83 0-1.5-.67-1.5-1.5S16.67 10 17.5 10s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-3-4c-.83 0-1.5-.67-1.5-1.5S13.67 6 14.5 6s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-5 0c-.83 0-1.5-.67-1.5-1.5S8.67 6 9.5 6s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-3 4c-.83 0-1.5-.67-1.5-1.5S5.67 10 6.5 10s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                        </div>
+                        <h3>Design UI/UX</h3>
+                        <p>Conception d'interfaces utilisateurs intuitives, accessibles et centrées sur l'utilisateur pour le contexte africain.</p>
+                    </div>
+                    <div class="service-card fade-up">
+                        <div class="service-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.13 2.13l1.53 1.53c-1.39 1.15-2.42 2.68-2.92 4.41l-1.92-.81c.64-2.12 1.88-3.95 3.31-5.13zM6.16 6.16l1.53 1.53C6.54 9.08 6 10.49 6 12s.54 2.92 1.69 4.31l-1.53 1.53C4.81 16.14 4 14.16 4 12s.81-4.14 2.16-5.84zM12 4c1.49 0 2.92.54 4.31 1.69l1.53-1.53C16.14 2.81 14.16 2 12 2s-4.14.81-5.84 2.16l1.53 1.53C8.84 4.54 10.49 4 12 4zm6.05 4.38L20.2 6.2C21.36 7.85 22 9.87 22 12c0 1.93-.57 3.77-1.59 5.31l-1.93-1.93c.6-1.04.95-2.26.95-3.55 0-1.28-.31-2.48-.88-3.52zM12 22c-1.49 0-2.92-.54-4.31-1.69l-1.53 1.53C7.86 23.19 9.84 24 12 24s4.14-.81 5.84-2.16l-1.53-1.53C14.92 21.46 13.49 22 12 22zm-7.6-6.4l1.93-1.93C5.73 12.63 5.38 11.41 5.38 10.12c0-1.28.31-2.48.88-3.52L4.33 4.67C3.31 6.21 2.74 8.05 2.74 10.12c0 2.13.64 4.15 1.66 5.8z"/></svg>
+                        </div>
+                        <h3>Intégration d'IA & Civic-Tech</h3>
+                        <p>Développement de portails citoyens et intégration d'intelligences artificielles (ex: Groq IA) pour des services automatisés.</p>
+                    </div>
+                    <div class="service-card fade-up">
+                        <div class="service-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 4H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H3V6h18v12zm-5.5-6.5L11 8v7z"/></svg>
+                        </div>
+                        <h3>Design graphique & Vidéo</h3>
+                        <p>Création d'affiches et supports visuels percutants, montage vidéo pour contenus promotionnels et réseaux sociaux.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Compétences (Skills) -->
+        <section id="skills" class="section-skills">
+            <!-- Arrière-plan SVGs animés -->
+            <div class="skills-bg-icons" aria-hidden="true">
+                <svg class="bg-icon icon-1" viewBox="0 0 24 24"><path fill="currentColor" d="M12,22C6.477,22,2,17.523,2,12S6.477,2,12,2s10,4.477,10,10S17.523,22,12,22z M12,4C7.589,4,4,7.589,4,12s3.589,8,8,8s8-3.589,8-8S16.411,4,12,4z"/></svg>
+                <svg class="bg-icon icon-2" viewBox="0 0 24 24"><path fill="currentColor" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95a15.65 15.65 0 00-1.38-3.56A8.03 8.03 0 0118.92 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56A7.987 7.987 0 015.08 16zm2.95-8H5.08a7.987 7.987 0 014.33-3.56A15.65 15.65 0 008.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm1.63 2.04h-2.95c.43 1.43 1.08 2.76 1.91 3.96a7.987 7.987 0 01-4.33 3.56z"/></svg>
+                <svg class="bg-icon icon-3" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2L2 22h20L12 2zm0 3.8l7.5 15H4.5L12 5.8z"/></svg>
+                <svg class="bg-icon icon-4" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                <svg class="bg-icon icon-5" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            </div>
+
+            <div class="container">
+                <h2 class="section-title reveal-text text-center">Ma Stack Technique</h2>
+                <div class="skills-grid" id="skills-grid">
+                    <!-- Chargé dynamiquement depuis l'API -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Portfolio -->
+        <section id="portfolio" class="section-portfolio">
+            <div class="container">
+                <h2 class="section-title reveal-text">Réalisations & Civic-Tech</h2>
+                <div class="portfolio-grid" id="portfolio-grid">
+                    <!-- Chargé dynamiquement depuis l'API -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Poster Design -->
+        <section id="posters" class="section-posters">
+            <div class="container posters-layout">
+                <div class="posters-text fade-up">
+                    <h2 class="poster-title">POSTER <span class="highlight-text">DESIGN</span></h2>
+                    <p class="poster-desc">
+                        Création d'affiches publicitaires percutantes utilisant une typographie audacieuse, des compositions cinématiques et un storytelling visuel moderne. Chaque design est conçu pour capter rapidement l'attention tout en conservant un style promotionnel épuré et professionnel.
+                    </p>
+                </div>
+                <div class="posters-grid" id="posters-grid">
+                    <!-- Chargé dynamiquement depuis l'API -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Contact -->
+        <section id="contact" class="section-contact">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info fade-up">
+                        <h2 class="section-title">Prêt à collaborer ?</h2>
+                        
+                        <!-- Widget Terminal -->
+                        <div class="terminal-widget" aria-hidden="true">
+                            <div class="terminal-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <div class="terminal-body">
+                                <div id="terminal-content"></div><span class="terminal-cursor">_</span>
+                            </div>
+                        </div>
+
+                        <p class="contact-desc">Un projet en vue pour l'écosystème tech africain ? Une application à développer ? Parlons-en.</p>
+                        
+                        <div class="contact-links" style="margin-bottom: 2rem;">
+                            <!-- Contact via WhatsApp (Email retiré en attendant la création d'une adresse pro) -->
+                            <a href="https://wa.me/qr/O2LLRAGVLY6FD1" target="_blank" class="contact-link" aria-label="Me contacter sur WhatsApp">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2m5.46 14.19c-.23.64-1.32 1.23-1.83 1.31-.44.07-.98.13-2.92-.66-2.33-.95-3.83-3.35-3.95-3.51-.11-.16-.94-1.25-.94-2.39s.59-1.69.8-1.91c.21-.22.45-.27.6-.27.15 0 .31 0 .43.01.13.01.29-.05.45.33.16.38.56 1.35.61 1.46.05.11.08.24.01.38-.07.15-.11.24-.22.38s-.21.24-.31.36c-.11.11-.22.24-.1.45.12.22.54.91 1.17 1.47.81.72 1.49.94 1.7.11.22.21.31.18.43-.02.13-.19.55-.64.7-.86.15-.22.3-.18.5-.11.21.07 1.31.62 1.54.73.23.11.38.16.43.26.06.11.06.63-.17 1.27z"/></svg>
+                                WhatsApp
+                            </a>
+                        </div>
+
+                        <!-- Bouton CV dans la section Contact -->
+                        <a href="assets/cv-pape-sene.pdf" download class="btn-secondary" aria-label="Télécharger mon CV au format PDF">Télécharger mon CV</a>
+                    </div>
+
+                    <div class="contact-form-container fade-up">
+                        <form id="contactForm" class="contact-form">
+                            <div class="form-group">
+                                <label for="name" class="visually-hidden">Votre Nom</label>
+                                <input type="text" id="name" name="name" placeholder="Votre Nom" required aria-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="visually-hidden">Votre Email</label>
+                                <input type="email" id="email" name="email" placeholder="Votre Email" required aria-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="visually-hidden">Votre Numéro de téléphone</label>
+                                <input type="tel" id="phone" name="phone" placeholder="Votre Numéro de téléphone (ex: +221 77 000 00 00)">
+                            </div>
+                            <div class="form-group">
+                                <label for="message" class="visually-hidden">Votre Message</label>
+                                <textarea id="message" name="message" rows="5" placeholder="Votre Message" required aria-required="true"></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary btn-large w-100">Envoyer le message</button>
+                            <p id="formStatus" class="form-status" aria-live="polite"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <div class="footer-profile-container">
+                    <img src="assets/PAS.jpg" alt="Pape Alioune Sene, PAS Digital Studio" class="footer-profile-img">
+                    <div class="logo-brand">
+                        <span class="logo-main">PAS</span>
+                        <span class="logo-sub">DIGITAL STUDIO</span>
+                    </div>
+                </div>
+            </div>
+            <div class="social-links">
+                <!-- Liens Sociaux -->
+                <a href="https://www.linkedin.com/in/papealiounesene?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" aria-label="Mon profil LinkedIn">LinkedIn</a>
+                <a href="https://x.com/papealiounesen3?s=11" target="_blank" aria-label="Mon profil X (Twitter)">X (Twitter)</a>
+                <a href="https://github.com/Alioune205" target="_blank" aria-label="Mon profil GitHub">GitHub</a>
+            </div>
+            <p class="copyright">&copy; <span id="current-year"></span> PAS Digital Studio. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Script Principal -->
+    <script src="main.js"></script>
+</body>
+</html>
