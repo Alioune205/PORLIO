@@ -21,7 +21,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     const errorDiv = document.getElementById('login-error');
     
     try {
-        const res = await fetch(${API_URL}/token/, {
+        const res = await fetch(`${API_URL}/token/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
@@ -57,7 +57,7 @@ async function authFetch(url, options = {}) {
     
     const headers = options.headers || {};
     if (token) {
-        headers['Authorization'] = Bearer ;
+        headers['Authorization'] = `Bearer ${token}`;
     }
     
     options.headers = headers;
@@ -66,7 +66,7 @@ async function authFetch(url, options = {}) {
     if (response.status === 401) {
         localStorage.removeItem('access_token');
         checkAuth();
-        alert('Votre session a expiré ou accès refusé. Veuillez vous connecter.');
+        alert('Votre session a expirï¿½ ou accï¿½s refusï¿½. Veuillez vous connecter.');
     }
     return response;
 }
