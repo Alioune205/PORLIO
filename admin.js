@@ -464,9 +464,9 @@ function showToast(msg, isError = false) {
 async function loadStats() {
     try {
         const [resP, resM, resA] = await Promise.all([
-            authFetch(${API_URL}/projects/),
-            authFetch(${API_URL}/messages/),
-            authFetch(${API_URL}/analytics/)
+            authFetch(`${API_URL}/projects/`),
+            authFetch(`${API_URL}/messages/`),
+            authFetch(`${API_URL}/analytics/`)
         ]);
         const [projects, messages, analytics] = await Promise.all([resP.json(), resM.json(), resA.json()]);
         
