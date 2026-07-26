@@ -1,6 +1,76 @@
 // admin.js - Tableau de bord PORLIO avec CRUD complet
 const API_URL = 'https://alioune205.pythonanywhere.com/api';
 
+// ================= AUTHENTICATION ================= //
+function checkAuth() {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        document.getElementById('login-modal').classList.add('active');
+        document.getElementById('admin-layout').style.display = 'none';
+        return null;
+    }
+    document.getElementById('login-modal').classList.remove('active');
+    document.getElementById('admin-layout').style.display = 'flex';
+    return token;
+}
+
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+    const errorDiv = document.getElementById('login-error');
+    
+    try {
+        const res = await fetch(${API_URL}/token/, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        
+        if (res.ok) {
+            const data = await res.json();
+            localStorage.setItem('access_token', data.access);
+            localStorage.setItem('refresh_token', data.refresh);
+            errorDiv.style.display = 'none';
+            if (checkAuth()) {
+                if (checkAuth()) { loadStats(); }
+                loadProjects();
+            }
+        } else {
+            errorDiv.style.display = 'block';
+        }
+    } catch (err) {
+        console.error(err);
+        errorDiv.style.display = 'block';
+    }
+});
+
+document.getElementById('logout-btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    checkAuth();
+});
+
+async function authFetch(url, options = {}) {
+    let token = localStorage.getItem('access_token');
+    
+    const headers = options.headers || {};
+    if (token) {
+        headers['Authorization'] = Bearer ;
+    }
+    
+    options.headers = headers;
+    const response = await fetch(url, options);
+    
+    if (response.status === 401) {
+        localStorage.removeItem('access_token');
+        checkAuth();
+        alert('Votre session a expir� ou acc�s refus�. Veuillez vous connecter.');
+    }
+    return response;
+}
+
 // ================= NAVIGATION ================= //
 document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', (e) => {
@@ -24,15 +94,15 @@ document.querySelectorAll('.nav-item').forEach(item => {
 async function loadStats() {
     try {
         const [resP, resM] = await Promise.all([
-            fetch(`${API_URL}/projects/`),
-            fetch(`${API_URL}/messages/`)
+            authFetch(`${API_URL}/projects/`),
+            authFetch(`${API_URL}/messages/`)
         ]);
         const [projects, messages] = await Promise.all([resP.json(), resM.json()]);
         document.getElementById('stat-projects').innerText = projects.length;
         document.getElementById('stat-messages').innerText = messages.length;
     } catch (e) { console.error(e); }
 }
-loadStats();
+if (checkAuth()) { loadStats(); }
 
 // ================= MODALS ================= //
 function openModal(id) { document.getElementById(id).classList.add('active'); }
@@ -45,7 +115,7 @@ let currentProjectId = null;
 
 async function loadProjects() {
     try {
-        const res = await fetch(`${API_URL}/projects/`);
+        const res = await authFetch(`${API_URL}/projects/`);
         const projects = await res.json();
         const tbody = document.querySelector('#projects-table tbody');
         tbody.innerHTML = '';
@@ -85,7 +155,7 @@ function openNewProjectModal() {
 
 async function editProject(id) {
     try {
-        const res = await fetch(`${API_URL}/projects/${id}/`);
+        const res = await authFetch(`${API_URL}/projects/${id}/`);
         const p = await res.json();
         currentProjectId = id;
         document.querySelector('#projectModal .modal-header h2').innerText = 'Modifier le projet';
@@ -115,10 +185,10 @@ document.getElementById('project-form').addEventListener('submit', async (e) => 
     try {
         const method = currentProjectId ? 'PUT' : 'POST';
         const url = currentProjectId ? `${API_URL}/projects/${currentProjectId}/` : `${API_URL}/projects/`;
-        await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        await authFetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
         closeModal('projectModal');
         loadProjects();
-        loadStats();
+        if (checkAuth()) { loadStats(); }
     } catch (err) {
         alert("Erreur lors de la sauvegarde !");
     } finally {
@@ -129,9 +199,9 @@ document.getElementById('project-form').addEventListener('submit', async (e) => 
 
 async function deleteProject(id) {
     if (!confirm("Supprimer ce projet définitivement ?")) return;
-    await fetch(`${API_URL}/projects/${id}/`, { method: 'DELETE' });
+    await authFetch(`${API_URL}/projects/${id}/`, { method: 'DELETE' });
     loadProjects();
-    loadStats();
+    if (checkAuth()) { loadStats(); }
 }
 
 // ============================================================
@@ -141,7 +211,7 @@ let currentProfileId = null;
 
 async function loadProfile() {
     try {
-        const res = await fetch(`${API_URL}/profile/`);
+        const res = await authFetch(`${API_URL}/profile/`);
         const profiles = await res.json();
         if (profiles.length > 0) {
             const p = profiles[0];
@@ -168,7 +238,7 @@ async function saveProfile() {
     try {
         const method = currentProfileId ? 'PUT' : 'POST';
         const url = currentProfileId ? `${API_URL}/profile/${currentProfileId}/` : `${API_URL}/profile/`;
-        await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        await authFetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
         showToast('✅ Profil sauvegardé !');
     } catch (e) {
         showToast('❌ Erreur lors de la sauvegarde.', true);
@@ -180,7 +250,7 @@ async function saveProfile() {
 // ============================================================
 async function loadSkills() {
     try {
-        const res = await fetch(`${API_URL}/skills/`);
+        const res = await authFetch(`${API_URL}/skills/`);
         const categories = await res.json();
         const container = document.getElementById('skills-container');
         container.innerHTML = '';
@@ -219,7 +289,7 @@ async function loadSkills() {
 document.getElementById('skillcat-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     try {
-        await fetch(`${API_URL}/skills/`, {
+        await authFetch(`${API_URL}/skills/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: document.getElementById('scat-name').value, order: 0 })
@@ -238,7 +308,7 @@ function openSkillModal(catId) {
 document.getElementById('skill-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     try {
-        await fetch(`${API_URL}/skill/`, {
+        await authFetch(`${API_URL}/skill/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: document.getElementById('skill-name').value, category: document.getElementById('skill-cat-id').value, order: 0 })
@@ -251,13 +321,13 @@ document.getElementById('skill-form').addEventListener('submit', async (e) => {
 
 async function deleteSkillCat(id) {
     if (!confirm("Supprimer la catégorie et TOUTES ses compétences ?")) return;
-    await fetch(`${API_URL}/skills/${id}/`, { method: 'DELETE' });
+    await authFetch(`${API_URL}/skills/${id}/`, { method: 'DELETE' });
     loadSkills();
 }
 
 async function deleteSkill(id) {
     if (!confirm("Supprimer cette compétence ?")) return;
-    await fetch(`${API_URL}/skill/${id}/`, { method: 'DELETE' });
+    await authFetch(`${API_URL}/skill/${id}/`, { method: 'DELETE' });
     loadSkills();
 }
 
@@ -266,7 +336,7 @@ async function deleteSkill(id) {
 // ============================================================
 async function loadMessages() {
     try {
-        const res = await fetch(`${API_URL}/messages/`);
+        const res = await authFetch(`${API_URL}/messages/`);
         const messages = await res.json();
         const container = document.getElementById('messages-list');
         container.innerHTML = '';
@@ -291,13 +361,13 @@ async function loadMessages() {
                 </div>
             `;
         });
-        loadStats();
+        if (checkAuth()) { loadStats(); }
     } catch (e) { console.error(e); }
 }
 
 async function deleteMessage(id) {
     if (!confirm("Supprimer ce message définitivement ?")) return;
-    await fetch(`${API_URL}/messages/${id}/`, { method: 'DELETE' });
+    await authFetch(`${API_URL}/messages/${id}/`, { method: 'DELETE' });
     loadMessages();
 }
 
@@ -308,7 +378,7 @@ let currentPosterId = null;
 
 async function loadPosters() {
     try {
-        const res = await fetch(`${API_URL}/posters/`);
+        const res = await authFetch(`${API_URL}/posters/`);
         const posters = await res.json();
         const container = document.getElementById('posters-grid');
         container.innerHTML = '';
@@ -357,7 +427,7 @@ document.getElementById('poster-form').addEventListener('submit', async (e) => {
     try {
         const method = currentPosterId ? 'PUT' : 'POST';
         const url = currentPosterId ? `${API_URL}/posters/${currentPosterId}/` : `${API_URL}/posters/`;
-        await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        await authFetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
         closeModal('posterModal');
         e.target.reset();
         loadPosters();
@@ -366,7 +436,7 @@ document.getElementById('poster-form').addEventListener('submit', async (e) => {
 
 async function deletePoster(id) {
     if (!confirm("Supprimer ce poster ?")) return;
-    await fetch(`${API_URL}/posters/${id}/`, { method: 'DELETE' });
+    await authFetch(`${API_URL}/posters/${id}/`, { method: 'DELETE' });
     loadPosters();
 }
 
@@ -386,3 +456,4 @@ function showToast(msg, isError = false) {
     toast.style.opacity = '1';
     setTimeout(() => { toast.style.opacity = '0'; }, 3000);
 }
+
