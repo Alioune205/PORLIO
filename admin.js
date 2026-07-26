@@ -457,3 +457,31 @@ function showToast(msg, isError = false) {
     setTimeout(() => { toast.style.opacity = '0'; }, 3000);
 }
 
+
+
+
+// Redefine loadStats to include analytics
+async function loadStats() {
+    try {
+        const [resP, resM, resA] = await Promise.all([
+            authFetch(${API_URL}/projects/),
+            authFetch(${API_URL}/messages/),
+            authFetch(${API_URL}/analytics/)
+        ]);
+        const [projects, messages, analytics] = await Promise.all([resP.json(), resM.json(), resA.json()]);
+        
+        let totalVisitors = 0;
+        if (analytics && Array.isArray(analytics)) {
+            totalVisitors = analytics.reduce((sum, item) => sum + item.page_views, 0);
+        }
+
+        const projEl = document.getElementById('stat-projects');
+        const msgEl = document.getElementById('stat-messages');
+        const visEl = document.getElementById('stat-visitors');
+        
+        if (projEl) projEl.innerText = projects.length || 0;
+        if (msgEl) msgEl.innerText = messages.length || 0;
+        if (visEl) visEl.innerText = totalVisitors || 0;
+    } catch (e) { console.error(e); }
+}
+
