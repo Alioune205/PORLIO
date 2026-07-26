@@ -1,5 +1,5 @@
 // admin.js - Tableau de bord PORLIO avec CRUD complet
-const API_URL = 'http://127.0.0.1:8001/api';
+const API_URL = 'https://alioune205.pythonanywhere.com/api';
 
 // ================= NAVIGATION ================= //
 document.querySelectorAll('.nav-item').forEach(item => {

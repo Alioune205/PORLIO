@@ -3,7 +3,7 @@
 // ============================================================
 // API - Chargement dynamique des données depuis le Backend
 // ============================================================
-const API_URL = 'http://127.0.0.1:8001/api';
+const API_URL = 'https://alioune205.pythonanywhere.com/api';
 
 async function loadPortfolioData() {
     try {
